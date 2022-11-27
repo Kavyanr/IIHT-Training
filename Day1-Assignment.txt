@@ -1,0 +1,398 @@
+Ques.1. Write an SQL query to fetch the EmpId and FullName of all the employees working under the Manager with id – ‘986’.
+
+        select e_id, FullName from employeedetails
+        where ManagerId=986;
+		
+	Output: 
+        +------+--------------+
+        | e_id | FullName     |
+        +------+--------------+
+        |  321 | Walter White |
+
+Ques.2. Write an SQL query to fetch the different projects available from the EmployeeSalary table.
+
+        select project from employeesalary;
+   
+        Output:
+        +---------+
+        | project |
+        +---------+
+        | P1      |
+        | P2      |
+        | P1      |
+        +---------+
+
+
+Ques.3. Write an SQL query to fetch the count of employees working in project ‘P1’.
+
+        select count(id) from employeesalary
+        where project="p1";
+		
+	Output:
+        +-----------+
+        | count(id) |
+        +-----------+
+        |         2 |
+        +-----------+
+
+Ques.4. Write an SQL query to find the maximum, minimum, and average salary of the employees.
+
+        select max(salary),min(salary),avg(salary)
+        from employeesalary;
+		
+	Output:
+        +-------------+-------------+-------------+
+        | max(salary) | min(salary) | avg(salary) |
+        +-------------+-------------+-------------+
+        |       12000 |        8000 |  10000.0000 |
+        +-------------+-------------+-------------+
+
+Ques.5. Write an SQL query to find the employee id whose salary lies in the range of 9000 and 15000.
+
+        select id from employeesalary
+        where salary BETWEEN 9000 And 15000;
+		
+	Output:
+       +-----+
+       | id  |
+       +-----+
+       | 321 |
+       | 421 |
+       +-----+
+
+Ques.6. Write an SQL query to fetch those employees who live in Toronto and work under the manager with ManagerId – 321.
+
+	select * from employeedetails
+        where city="Toronto" And ManagerId=321;
+		
+	Output:
+        +------+-----------+-----------+---------------+---------+
+        | e_id | FullName  | ManagerId | DateOfJoining | city    |
+        +------+-----------+-----------+---------------+---------+
+        |  121 | John Snow | 321       | 2019-01-31    | Toronto |
+        +------+-----------+-----------+---------------+---------+
+
+Ques.7. Write an SQL query to fetch all the employees who either live in California or work under a manager with ManagerId – 321.
+
+        select * from employeedetails
+        where city="California" And ManagerId=321;
+		
+        Output:
+        Empty set (0.00 sec)
+
+Ques.8. Write an SQL query to fetch all those employees who work on Projects other than P1.
+
+	select * from employeesalary
+        where project != "p1";
+		
+	Output:
+        +-----+---------+--------+----------+
+        | id  | project | salary | variable |
+        +-----+---------+--------+----------+
+        | 321 | P2      |  10000 |     1000 |
+        +-----+---------+--------+----------+
+
+Ques.9. Write an SQL query to display the total salary of each employee adding the Salary with Variable value.
+
+         select FullName,(salary + variable)
+         from employeedetails
+         INNER JOIN employeesalary
+         on employeedetails.e_id=employeesalary.id;
+
+	 Output:
+	+--------------+---------------------+
+	| FullName     | (salary + variable) |
+	+--------------+---------------------+
+	| John-Snow    |                8500 |
+	| Walter-White |               11000 |
+	| Kuldeep-Rana |               12000 |
+	+--------------+---------------------+
+
+Ques.10. Write an SQL query to fetch the employees whose name begins with any two characters, followed by a text “hn” and ends with any sequence of characters.
+       
+       select * from employeedetails
+       where FullName LIKE "__hn%";
+	   
+	Output:
+       +------+-----------+-----------+---------------+---------+
+       | e_id | FullName  | ManagerId | DateOfJoining | city    |
+       +------+-----------+-----------+---------------+---------+
+       |  121 | John Snow | 321       | 2019-01-31    | Toronto |
+       +------+-----------+-----------+---------------+---------+
+
+Ques.11. Write an SQL query to fetch all the EmpIds which are present in either of the tables – ‘EmployeeDetails’ and ‘EmployeeSalary’.
+  
+       select e_id, id
+       from employeedetails 
+       FULL JOIN employeesalary where e_id=id;
+	   
+       Output:
+       +------+-----+
+       | e_id | id  |
+       +------+-----+
+       |  121 | 121 |
+       |  321 | 321 |
+       |  421 | 421 |
+       +------+-----+
+
+Ques.12. Write an SQL query to fetch common records between two tables.
+
+       select * from employeedetails
+       INNER JOIN employeesalary
+       ON employeedetails.e_id=employeesalary.id;
+
+      Output:
+      +------+--------------+-----------+---------------+------------+-----+---------+--------+----------+
+      | e_id | FullName     | ManagerId | DateOfJoining | city       | id  | project | salary | variable |
+      +------+--------------+-----------+---------------+------------+-----+---------+--------+----------+
+      |  121 | John-Snow    | 321       | 2019-01-31    | Toronto    | 121 | P1      |   8000 |      500 |
+      |  321 | Walter-White | 986       | 2020-01-30    | California | 321 | P2      |  10000 |     1000 |
+      |  421 | Kuldeep-Rana | 876       | 2021-11-27    | New Delhi  | 421 | P1      |  12000 |        0 |
+      +------+--------------+-----------+---------------+------------+-----+---------+--------+----------+
+
+Ques.13. Write an SQL query to fetch records that are present in one table but not in another table.
+
+        select * from employeedetails
+        LEFT JOIN employeesalary
+        on employeedetails.e_id=employeesalary.id;
+
+      Output:
+      +------+--------------+-----------+---------------+------------+------+---------+--------+----------+
+      | e_id | FullName     | ManagerId | DateOfJoining | city       | id   | project | salary | variable |
+      +------+--------------+-----------+---------------+------------+------+---------+--------+----------+
+      |  121 | John-Snow    | 321       | 2019-01-31    | Toronto    |  121 | P1      |   8000 |      500 |
+      |  321 | Walter-White | 986       | 2020-01-30    | California |  321 | P2      |  10000 |     1000 |
+      |  421 | Kuldeep-Rana | 876       | 2021-11-27    | New Delhi  |  421 | P1      |  12000 |        0 |
+      +------+--------------+-----------+---------------+------------+------+---------+--------+----------+
+
+
+Ques.14. Write an SQL query to fetch the EmpIds that are present in both the tables –   ‘EmployeeDetails’ and ‘EmployeeSalary.
+       
+	select employeedetails.e_id, employeesalary.id
+        from employeedetails
+        INNER JOIN employeesalary
+        ON employeedetails.e_id=employeesalary.id;
+		
+         Output:
+        +------+-----+
+        | e_id | id  |
+        +------+-----+
+        |  121 | 121 |
+        |  321 | 321 |
+        |  421 | 421 |
+        +------+-----+
+
+Ques.15. Write an SQL query to fetch the EmpIds that are present in EmployeeDetails but not in EmployeeSalary.
+
+        select employeedetails.e_id from employeedetails
+        LEFT JOIN employeesalary
+        ON employeedetails.e_id=employeesalary.id;
+		
+	Output:
+        +------+
+        | e_id |
+        +------+
+        |  121 |
+        |  321 |
+        |  421 |
+        +------+
+
+Ques.16. Write an SQL query to fetch the employee’s full names and replace the space with ‘-’.
+
+       Update employeedetails
+       set FullName=Replace(FullName," ","-");
+
+       select FullName from employeedetails;
+	   
+	Output:
+       +------+--------------+-----------+---------------+------------+
+       | e_id | FullName     | ManagerId | DateOfJoining | city       |
+       +------+--------------+-----------+---------------+------------+
+       |  121 | John-Snow    | 321       | 2019-01-31    | Toronto    |
+       |  321 | Walter-White | 986       | 2020-01-30    | California |
+       |  421 | Kuldeep-Rana | 876       | 2021-11-27    | New Delhi  |
+       +------+--------------+-----------+---------------+------------+
+
+Ques.17. Write an SQL query to fetch the position of a given character(s) in a field.
+
+	 select POSITION('s' IN FullName) from employeedetails;
+	
+	 Output:
+	+---------------------------+
+	| POSITION('s' IN FullName) |
+	+---------------------------+
+	|                         6 |
+	|                         0 |
+	|                         0 |
+	+---------------------------+
+
+Ques.18. Write an SQL query to display both the EmpId and ManagerId together.
+
+          select employeedetails.e_id,employeedetails.ManagerId
+          from employeedetails;
+	   
+	   Output:
+       +------+-----------+
+       | e_id | ManagerId |
+       +------+-----------+
+       |  121 | 321       |
+       |  321 | 986       |
+       |  421 | 876       |
+       +------+-----------+
+
+Ques.19. Write a query to fetch only the first name(string before space) from the FullName column of the EmployeeDetails table.
+
+        
+
+Ques.20. Write an SQL query to uppercase the name of the employee and lowercase the city values.
+
+       select Upper(FullName),Lower(city)
+       from employeedetails;
+	   
+	   Output:
+       +-----------------+-------------+
+       | Upper(FullName) | Lower(city) |
+       +-----------------+-------------+
+       | JOHN-SNOW       | toronto     |
+       | WALTER-WHITE    | california  |
+       | KULDEEP-RANA    | new delhi   |
+       +-----------------+-------------+
+
+Ques.21. Write an SQL query to find the count of the total occurrences of a particular character – ‘n’ in the FullName field.
+	
+	select FullName, ROUND((LENGTH(FullName))-LENGTH(REPLACE(FullName,'n',"")))
+        AS count from employeedetails;
+
+	 Output:
+	+--------------+-------+
+	| FullName     | count |
+	+--------------+-------+
+	| John-Snow    |     2 |
+	| Walter-White |     0 |
+	| Kuldeep-Rana |     1 |
+	+--------------+-------+
+
+
+Ques.22. Write an SQL query to update the employee names by removing leading and trailing spaces.
+	
+	select RTRIM(FullName) from employeedetails;
+
+	Output:
+	+-----------------+
+	| RTRIM(FullName) |
+	+-----------------+
+	| John-Snow       |
+	| Walter-White    |
+	| Kuldeep-Rana    |
+	+-----------------+
+
+Ques.23. Fetch all the employees who are not working on any project.
+
+       select * from employeesalary
+       where project = NULL;
+	   
+	   Output:
+       +---------------------+
+       | Empty set (0.02 sec)|
+       +---------------------+
+
+Ques.24. Write an SQL query to fetch employee names having a salary greater than or equal to 5000 and less than or equal to 10000.
+
+       select FullName from employeedetails
+       FULL JOIN employeesalary
+       On e_id=id
+       where employeesalary.salary >=5000 AND employeesalary.salary<=10000;
+	   
+	   Output:
+       +--------------+
+       | FullName     |
+       +--------------+
+       | John-Snow    |
+       | Walter-White |
+       +--------------+
+
+Ques.25. Write an SQL query to find the current date-time.
+
+	SELECT NOW();
+
+	Output:
+        +---------------------+
+        | NOW()               |
+        +---------------------+
+        | 2022-11-24 17:52:40 |
+        +---------------------+
+
+
+Ques.26. Write an SQL query to fetch all the Employee details from the EmployeeDetails table who joined in the Year 2020.
+
+        select * from employeedetails
+        where year(DateOfJoining)=2020;
+	   
+	   Output:
+       +------+--------------+-----------+---------------+------------+
+       | e_id | FullName     | ManagerId | DateOfJoining | city       |
+       +------+--------------+-----------+---------------+------------+
+       |  321 | Walter-White | 986       | 2020-01-30    | California |
+       +------+--------------+-----------+---------------+------------+
+
+Ques.27. Write an SQL query to fetch all employee records from the EmployeeDetails table who have a salary record in the EmployeeSalary table.
+      
+	  SELECT * FROM EmployeeDetails E
+          WHERE EXISTS(SELECT * FROM EmployeeSalary S
+          WHERE E.e_id = S.id);
+
+	  Output:
+          +------+--------------+-----------+---------------+------------+
+          | e_id | FullName     | ManagerId | DateOfJoining | city       | 
+          +------+--------------+-----------+---------------+------------+
+          |  121 | John-Snow    | 321       | 2019-01-31    | Toronto    |  
+          |  321 | Walter-White | 986       | 2020-01-30    | California |  
+          |  421 | Kuldeep-Rana | 876       | 2021-11-27    | New Delhi  |  
+          +------+--------------+-----------+---------------+------------+
+
+
+Ques.28. Write an SQL query to fetch the project-wise count of employees sorted by project’s count in descending order.
+
+        select project,count(id) empCount
+        from employeesalary
+        group by project
+        order by empCount DESC;
+
+	Output:
+       +---------+----------+
+       | project | empCount |
+       +---------+----------+
+       | P2      |        1 |
+       | P1      |        2 |
+       +---------+----------+
+
+Ques.29. Write a query to fetch employee names and salary records. Display the employee details even if the salary record is not present for the employee.
+		
+        select FullName,salary
+        from employeedetails
+        Full JOIN employeesalary
+        on e_id=id;
+		
+		Output:
+        +--------------+--------+
+        | FullName     | salary |
+        +--------------+--------+
+        | John-Snow    |   8000 |
+        | Walter-White |  10000 |
+        | Kuldeep-Rana |  12000 |
+        +--------------+--------+
+
+Ques. 30. Write an SQL query to fetch all the Employees who are also managers from the EmployeeDetails table.
+
+          select E.FullName from employeedetails E
+          INNER JOIN employeedetails M on E.e_id= M.ManagerId;
+
+	Output:
+       +--------------+
+       | FullName     |
+       +--------------+
+       | Walter-White |
+       +--------------+
+
+
+
